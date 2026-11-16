@@ -1,0 +1,43 @@
+  </main>
+  <!-- Modal: Ingest / Paste Custom Email -->
+  <div id="modal-add-email" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 style="font-size:14px; font-weight:700; color:#fff;">Paste Inbound Email for AI Parsing</h3>
+        <button onclick="closeModal('modal-add-email')" class="btn btn-secondary btn-sm" style="padding:3px 8px;">✕</button>
+      </div>
+      <div style="padding: 10px 20px; background:var(--bg-subtle); border-bottom:1px solid var(--border); display:flex; gap:6px; align-items:center; font-size:11px;">
+        <span style="color:var(--text-faint);">Load Template:</span>
+        <button type="button" onclick="loadTemplate('clash')" class="btn btn-secondary btn-sm">🚨 Clash Pitch</button>
+        <button type="button" onclick="loadTemplate('reschedule')" class="btn btn-secondary btn-sm">🔄 Reschedule</button>
+        <button type="button" onclick="loadTemplate('flight')" class="btn btn-secondary btn-sm">✈️ Flight Travel</button>
+      </div>
+      <form id="form-add-email" class="modal-body">
+        <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div>
+            <label class="form-label">Sender Name</label>
+            <input type="text" id="inp-sender-name" class="form-input" placeholder="e.g. Dean Vance" required>
+          </div>
+          <div>
+            <label class="form-label">Sender Email</label>
+            <input type="email" id="inp-sender-email" class="form-input" placeholder="vance@university.edu" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <input type="text" id="inp-subject" class="form-input" placeholder="e.g. Executive Board Pitch: Nov 17 at 2:00 PM" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Body Content</label>
+          <textarea id="inp-body" rows="6" class="form-textarea" placeholder="Paste full email text here..." required></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
+          <button type="button" onclick="closeModal('modal-add-email')" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary">⚡ Ingest & Extract</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
