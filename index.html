@@ -1,4 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChronoMail AI — Autonomous Email Scheduler & Conflict Engine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Minimalist Header -->
+  <header class="header">
+    <div class="container header-content">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <div class="brand-name">
+            ChronoMail <span class="badge-tag">AI Scheduler</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <span class="status-dot"></span>
+        <span>Simulated Now: <strong style="color:#fff;">Nov 16, 2026, 12:30 PM</strong></span>
+      </div>
+
+      <div class="header-actions">
+        <button onclick="processAllEmails()" class="btn btn-primary">
+          <span>⚡ Process All Inbound</span>
+        </button>
+        <button onclick="openModal('modal-add-email')" class="btn btn-secondary">
+          <span>+ Paste / Test Email</span>
+        </button>
+        <button onclick="resetDemoData()" title="Reset Demo Data" class="btn btn-secondary btn-sm">
+          <span>↺ Reset</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container" style="flex: 1; padding-top: 10px; padding-bottom: 30px;">
+
+    <!-- Minimalist Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card" onclick="switchTab('calendar')" style="cursor:pointer;">
+        <div class="stat-label">
+          <span>Active Events</span>
+          <span>📅</span>
+        </div>
+        <div id="stat-events" class="stat-value">2</div>
+        <div class="stat-sub">Confirmed on schedule</div>
+      </div>
+
+      <div id="stat-clash-card" class="stat-card" onclick="switchTab('conflicts')" style="cursor:pointer;">
+        <div class="stat-label">
+          <span>Detected Clashes</span>
+          <span>⚠️</span>
+        </div>
+        <div id="stat-clashes" class="stat-value">0</div>
+        <div id="stat-clash-sub" class="stat-sub">Zero schedule conflicts</div>
+      </div>
+
+      <div class="stat-card" onclick="switchTab('reminders')" style="cursor:pointer;">
+        <div class="stat-label">
+          <span>Proactive Reminders</span>
+          <span>⏰</span>
+        </div>
+        <div id="stat-reminders" class="stat-value">1</div>
+        <div class="stat-sub">Check-in, flight & prep alerts</div>
+      </div>
+
+      <div class="stat-card" onclick="switchTab('inbox')" style="cursor:pointer;">
+        <div class="stat-label">
+          <span>Pending Inbound</span>
+          <span>📬</span>
+        </div>
+        <div id="stat-emails" class="stat-value">5</div>
+        <div class="stat-sub">Unprocessed emails in queue</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" data-tab="inbox" onclick="switchTab('inbox')">
+        <span>Inbox & AI Scanner</span>
+        <span id="tab-inbox-count" class="tab-count">5</span>
+      </button>
+
+      <button class="tab-btn" data-tab="calendar" onclick="switchTab('calendar')">
+        <span>Calendar Schedule</span>
+      </button>
+
+      <button class="tab-btn" data-tab="conflicts" onclick="switchTab('conflicts')">
+        <span>Clash Radar</span>
+        <span id="tab-clash-count" class="tab-count">0</span>
+      </button>
+
+      <button class="tab-btn" data-tab="reminders" onclick="switchTab('reminders')">
+        <span>Reminders Hub</span>
+        <span id="tab-reminders-count" class="tab-count">1</span>
+      </button>
+
+      <button class="tab-btn" data-tab="audit" onclick="switchTab('audit')">
+        <span>Audit Log</span>
+      </button>
+    </nav>
+
+    <!-- Tab 1: Inbox Workspace -->
+    <div id="tab-inbox" class="tab-panel">
+      <div class="workspace-grid">
+        <!-- Column 1: Email Feed -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">📬 Inbound Queue</span>
+          </div>
+          <div id="emails-list" class="panel-body"></div>
+        </div>
+
+        <!-- Column 2: Reader -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">📄 Email Reader</span>
+          </div>
+          <div id="email-reader" class="panel-body"></div>
+        </div>
+
+        <!-- Column 3: AI Inspector -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">🤖 AI Intelligence Extractor</span>
+          </div>
+          <div id="ai-inspector" class="panel-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Calendar View -->
+    <div id="tab-calendar" class="tab-panel" style="display:none;">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">📅 Club Timetable & Events</span>
+        </div>
+        <div id="calendar-view" class="panel-body" style="padding:20px;"></div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Clash Radar View -->
+    <div id="tab-conflicts" class="tab-panel" style="display:none;">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">⚠️ Conflict & Clash Detection Radar</span>
+        </div>
+        <div id="conflicts-view" class="panel-body" style="padding:20px;"></div>
+      </div>
+    </div>
+
+    <!-- Tab 4: Reminders View -->
+    <div id="tab-reminders" class="tab-panel" style="display:none;">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">⏰ Contextual Auto-Reminders</span>
+        </div>
+        <div id="reminders-view" class="panel-body" style="padding:20px;"></div>
+      </div>
+    </div>
+
+    <!-- Tab 5: Audit View -->
+    <div id="tab-audit" class="tab-panel" style="display:none;">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">📜 Autonomous Operations Audit Log</span>
+        </div>
+        <div id="audit-view" class="panel-body" style="padding:20px;"></div>
+      </div>
+    </div>
+
   </main>
+
   <!-- Modal: Ingest / Paste Custom Email -->
   <div id="modal-add-email" class="modal-overlay" style="display:none;">
     <div class="modal">
@@ -38,6 +217,7 @@
       </form>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
